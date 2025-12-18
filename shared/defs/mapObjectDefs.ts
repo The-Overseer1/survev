@@ -8491,6 +8491,14 @@ export const MapObjectDefs: Record<string, MapObjectDef> = {
             scale: 0.45,
         },
     }),
+    barrel_05: createWoodBarrel({
+        health: 80,
+        terrain: { grass: false, beach: true },
+        img: {
+            sprite: "map-barrel-05.img",
+        },
+        loot: [autoLoot("mirv", 1)],
+    }),
     propane_01: createBarrel({
         collision: collider.createCircle(v2.create(0, 0), 1.25),
         health: 50,
@@ -10779,6 +10787,13 @@ export const MapObjectDefs: Record<string, MapObjectDef> = {
         img: { sprite: "map-tree-03cb.img", tint: 0xb1b1b1 },
         loot: [tierLoot("tier_surviv", 2, 3), autoLoot("mosin", 1)],
     } as unknown as Partial<ObstacleDef>),
+    tree_03bh: createTree({ // beach cache
+        scale: { createMin: 1.15, createMax: 1.3, destroy: 0.5 },
+        collision: collider.createCircle(v2.create(0, 0), 1.1),
+        map: { display: false },
+        img: { sprite: "map-tree-14.img", tint: 0xb1b1b1},
+        loot: [tierLoot("tier_surviv", 2, 3), autoLoot("scout_elite", 1)],
+    } as unknown as Partial<ObstacleDef>),
     tree_05: createTree({
         collision: collider.createCircle(v2.create(0, 0), 2.3),
         aabb: collider.createAabbExtents(v2.create(0, 0), v2.create(12, 12)),
@@ -11027,6 +11042,36 @@ export const MapObjectDefs: Record<string, MapObjectDef> = {
             tint: 0xffffff,
             zIdx: 801,
         },
+    }),
+    tree_14: createTree({ // base palm tree, change to 13
+        scale: { createMin: 1.15, createMax: 1.3, destroy: 0.5 },
+        collision: collider.createCircle(v2.create(0, 0), 1),
+        img: {
+            sprite: "map-tree-14.img",
+            tint: 0xffffff,
+            zIdx: 801,
+        },
+        terrain: { grass: true, beach: true },
+    }),
+    tree_14ch: createTree({
+        scale: { createMin: 1.2, createMax: 1.4, destroy: 0.5 },
+        collision: collider.createCircle(v2.create(0, 0), 1),
+        img: {
+            sprite: "map-tree-14ch.img",
+            tint: 0xffffff,
+            zIdx: 801,
+        },
+    }),
+    tree_14cn: createTree({
+        scale: { createMin: 1.15, createMax: 1.3, destroy: 0.5},
+        collision: collider.createCircle(v2.create(0, 0), 1),
+        loot: [autoLoot("frag", 1)],
+        img: {
+            sprite: "map-tree-14cn.img",
+            tint: 0xffffff,
+            zIdx: 801,
+        },
+        terrain: { grass: true, beach: true },
     }),
     tree_switch_01: createTreeSwitch({
         img: { sprite: "map-tree-switch-01.img" },
@@ -13192,6 +13237,23 @@ export const MapObjectDefs: Record<string, MapObjectDef> = {
             },
         ],
         map: { displayType: "tree_07" },
+    }),
+    cache_02bh: createCache({
+        mapObjects: [
+            {
+                type: "tree_03bh",
+                pos: v2.create(0, 0),
+                scale: 1,
+                ori: 0,
+            },
+            {
+                type: "decal_initiative_01",
+                pos: v2.create(0, 0),
+                scale: 0.9,
+                ori: 0,
+                inheritOri: false,
+            }
+        ],
     }),
     cache_03: createCache({
         mapObjects: [
