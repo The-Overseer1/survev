@@ -274,6 +274,14 @@ export const GameConfig = {
     },
     structureLayerCount: 2,
     tracerColors: {
+        "22": {
+            regular: 0xff2c7c,
+            saturated: 0xff5c9f,
+            chambered: 0xff0055,
+            apSaturated: 0x99123f,
+            alphaRate: 0.92,
+            alphaMin: 0.14,
+        },
         "9mm": {
             regular: 0xfee2c6,
             saturated: 0xffd9b3,
@@ -371,7 +379,7 @@ export const GameConfig = {
         "762mm": [90, 180, 240, 300],
         "556mm": [90, 180, 240, 300],
         "12gauge": [15, 30, 60, 90],
-        "50AE": [49, 98, 147, 196],
+        "50AE": [60, 120, 180, 240],
         "308sub": [10, 20, 40, 80],
         flare: [2, 4, 6, 8],
         "45acp": [90, 180, 240, 300],

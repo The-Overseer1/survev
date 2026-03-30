@@ -425,7 +425,7 @@ export const RoleDefs: Record<string, RoleDef> = {
         announce: false,
         killFeed: { dead: true, color: "#12ff00" },
         sound: { dead: "leader_dead_01" },
-        perks: ["gotw", "windwalk"],
+        perks: ["gotw", "leadership", "flak_jacket", "steelskin", "trick_size", "assume_leadership"],
     },
     kill_leader: {
         type: "role",

@@ -1319,6 +1319,14 @@ const SkinDefs: Record<string, MeleeDef> = {
             sprite: "loot-melee-katana-orchid.img",
         },
     }),
+    naginata_daemon: defineMeleeSkin("naginata", {
+        name: "Naginata Daemon",
+        quality: 1,
+        lootImg: { sprite: "loot-melee-naginata-daemon.img" },
+        worldImg: {
+            sprite: "loot-melee-naginata-daemon.img",
+        },
+    }),
     sledgehammer: defineMeleeSkin("stonehammer", {
         name: "Sledgehammer",
         lootImg: { sprite: "loot-melee-sledgehammer.img" },
