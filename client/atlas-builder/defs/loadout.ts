@@ -571,6 +571,7 @@ export const LoadoutAtlas: AtlasDef = {
         "loot/player-visor-scout.svg",
         "loot/player-visor-sniper.svg",
         "loot/player-visor-tank.svg",
+        "loot/player-visor-classless.svg",
         "map/map-gun-mount-01.svg",
         "map/map-gun-mount-02.svg",
         "map/map-gun-mount-03.svg",

@@ -986,7 +986,7 @@ export class Player extends BaseGameObject {
                 newOutfit = newOutfit(clampedTeamId);
             }
             if (newOutfit) {
-                if (!oldOutfit.noDropOnDeath) {
+                if (!oldOutfit.noDropOnDeath && !oldOutfit.noDrop) {
                     this.dropLoot(this.outfit);
                 }
                 this.setOutfit(newOutfit);
@@ -1057,9 +1057,19 @@ export class Player extends BaseGameObject {
             }
         }
 
-        // we first need to build a list of the new perks to add
+        // A list of the new perks to add must be built first
         const newPerks = new Set<string>();
-        if (roleDef.perks) {
+
+        // Random perk addition logiic
+        if (role === "classless") {
+            const perkPool = PerkProperties.classless.perkPool;
+            const candidatePerks = perkPool.filter((perk) => !this.hasPerk(perk));
+            const newPerk = util.randomItem(candidatePerks);
+
+            if (newPerk) {
+                newPerks.add(newPerk);
+            }
+        } else if (roleDef.perks) {
             for (let i = 0; i < roleDef.perks.length; i++) {
                 const perkOrPerkFunc = roleDef.perks[i];
                 const perkType =
@@ -1070,14 +1080,14 @@ export class Player extends BaseGameObject {
                 newPerks.add(perkType);
             }
         }
-        // then remove perks from the old role
-        // but skip perks we are about to add again and remove them from the list
-        // so they both aren't removed to just be added again
-        // and aren't added twice
+
+        // Then, remove perks from the old role
+        // But skip perks that are going to be readded to avoid double adding them or removing / readding pointlessly.
         for (let i = 0; i < this.perks.length; i++) {
             const perkType = this.perks[i].type;
+
             if (this.perks[i].isFromRole) {
-                if (!newPerks.has(perkType)) {
+                if (!(role === "classless") && !newPerks.has(perkType)) {
                     this.removePerk(perkType);
                     i--;
                 } else {
@@ -2975,6 +2985,31 @@ export class Player extends BaseGameObject {
 
                 if (killCreditSource.role === "woods_king") {
                     this.game.playerBarn.addMapPing("ping_woodsking", this.pos);
+                }
+            }
+
+            // "secret" interaction: when all 4 lone perks are equipped, don't swap anymore
+            const lonePerks = 
+                killCreditSource.hasPerk("takedown") &&
+                killCreditSource.hasPerk("steelskin") &&
+                killCreditSource.hasPerk("field_medic") &&
+                killCreditSource.hasPerk("splinter");
+
+            if (killCreditSource !== this && killCreditSource.role === "classless") {
+                const rolePerks = killCreditSource.perks.filter((perk) => perk.isFromRole);
+                const perkPool = PerkProperties.classless.perkPool;
+
+                if (!lonePerks) {
+                    if (rolePerks.length > 0 && perkPool.length > 0) {
+                        const perkToReplace = rolePerks[util.randomInt(0, rolePerks.length - 1)].type;
+                        const candidatePerks = perkPool.filter(p => !killCreditSource.hasPerk(p));
+                        const newPerk = util.randomItem(candidatePerks);
+
+                        if (newPerk) {
+                            killCreditSource.removePerk(perkToReplace);
+                            killCreditSource.addPerk(newPerk, false, undefined, true);
+                        }
+                    }
                 }
             }
             killMsg.killCreditId = killCreditSource.__id;
