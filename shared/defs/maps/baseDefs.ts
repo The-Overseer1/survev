@@ -521,6 +521,11 @@ export const Main: MapDef = {
             { name: "splinter", count: 1, weight: 1 },
             { name: "lifeline", count: 1, weight: 1 },
         ],
+        tier_chest_demo: [
+            { name: "chest01", count: 1, weight: 7.3 },
+            { name: "chest02", count: 1, weight: 2.5 },
+            { name: "chest03", count: 1, weight: 0.2 },
+        ],
         tier_throwables_demo: [
             { name: "frag", count: 3, weight: 1 },
             { name: "mirv", count: 2, weight: 1 },
