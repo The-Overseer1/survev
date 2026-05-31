@@ -14308,7 +14308,7 @@ export const MapObjectDefs: Record<string, MapObjectDef> = {
                 scale: 1,
                 ori: 1,
             },
-            // comment 
+            // comment
             {
                 type: randomObstacleType({ planter_07: 1, "": 1 }),
                 pos: v2.create(-0.5, 7),
@@ -14403,7 +14403,7 @@ export const MapObjectDefs: Record<string, MapObjectDef> = {
                 type: "recorder_05",
                 pos: v2.create(-7.75, -1.75),
                 scale: 1,
-                ori: 0
+                ori: 0,
             },
             {
                 type: "loot_tier_chrys_01", // outfitImperial
