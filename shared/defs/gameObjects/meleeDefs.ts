@@ -1204,6 +1204,19 @@ const SkinDefs: Record<string, MeleeDef> = {
             sprite: "loot-melee-karambit-drowned.img",
         },
     }),
+    karambit_borealis: defineMeleeSkin("karambit", {
+        name: "Karambit Borealis",
+        damage: 999,
+        lore: "Rend the skies asunder.",
+        rarity: Rarity.Epic,
+        noPotatoSwap: true,
+        lootImg: {
+            sprite: "loot-melee-karambit-borealis.img",
+        },
+        worldImg: {
+            sprite: "loot-melee-karambit-borealis.img",
+        },
+    }),
     bayonet_rugged: defineMeleeSkin("bayonet", {
         name: "Bayonet Rugged",
         rarity: Rarity.Rare,

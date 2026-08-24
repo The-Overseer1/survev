@@ -1,4 +1,4 @@
-import { TeamMode } from "../../gameConfig.ts";
+import { MapId, TeamMode } from "../../gameConfig.ts";
 
 type QuestEvent =
     | "kill"
@@ -10,13 +10,14 @@ type QuestEvent =
 
 interface QuestWhere {
     mode?: TeamMode;
+    map?: MapId | MapId[];
     maxRank?: number;
     buildingType?: string;
-    ammo?: string;
+    ammo?: string | string[];
     weaponClass?: "melee" | "throwable";
     itemType?: string;
     itemClass?: "heal" | "boost";
-    obstacleType?: string;
+    obstacleType?: string | string[];
 }
 
 export interface QuestDef {
@@ -131,6 +132,16 @@ export const QuestDefs: Record<string, QuestDef> = {
             ammo: "12gauge",
         },
     },
+    quest_damage_rareAmmo: {
+        type: "quest",
+        event: "damage",
+        target: 250,
+        xp: 50,
+        icon: "img/emotes/ammo-50ae.svg",
+        where: {
+            ammo: ["308sub", "50AE"],
+        },
+    },
     quest_damage_grenade: {
         type: "quest",
         event: "damage",
@@ -239,6 +250,24 @@ export const QuestDefs: Record<string, QuestDef> = {
             obstacleType: "vending",
         },
     },
+    quest_potato: {
+        type: "quest",
+        event: "destruction",
+        target: 50,
+        xp: 30,
+        where: {
+            obstacleType: "potato",
+        },
+    },
+    quest_pvt: {
+        type: "quest",
+        event: "destruction",
+        target: 50,
+        xp: 30,
+        where: {
+            obstacleType: "potato",
+        },
+    },
     quest_club_kills: {
         type: "quest",
         event: "kill",
@@ -246,6 +275,16 @@ export const QuestDefs: Record<string, QuestDef> = {
         xp: 40,
         where: {
             buildingType: "club",
+        },
+    },
+    quest_reserve_kills: {
+        type: "quest",
+        event: "kill",
+        target: 2,
+        xp: 40,
+        where: {
+            buildingType: "reserve",
+            map: MapId.Desert,
         },
     },
 };

@@ -7,6 +7,10 @@ import { assert } from "../../../shared/utils/util.ts";
 import type { Game } from "./game.ts";
 import type { Player } from "./objects/player.ts";
 
+function matchesAny<T>(value: T | undefined, expected?: T | T[]) {
+    if (expected === undefined) return true;
+    return Array.isArray(expected) ? expected.includes(value as T) : value === expected;
+}
 export class QuestManager {
     player: Player;
     game: Game;
@@ -151,11 +155,11 @@ export function questDelta<E extends keyof QuestEventPayloads>(
             const weapDef = GameObjectDefs.typeToDefSafe(p.weaponType);
             const ammo = weapDef?.type === "gun" ? weapDef.ammo : undefined;
 
-            if (where?.ammo && ammo !== where.ammo) {
+            if (!matchesAny(ammo, where?.ammo)) {
                 return 0;
             }
 
-            if (where?.weaponClass && weapDef?.type !== where.weaponClass) {
+            if (!matchesAny(weapDef?.type, where?.weaponClass)) {
                 return 0;
             }
 
@@ -209,11 +213,11 @@ export function questDelta<E extends keyof QuestEventPayloads>(
             }
 
             const objectDef = MapObjectDefs.typeToDefSafe(p.objectType) as ObstacleDef | undefined;
-            if (objectDef?.obstacleType) {
-                value = objectDef.obstacleType === obstacleType ? 1 : 0;
-                break;
+            if (!matchesAny(objectDef?.obstacleType, where?.obstacleType)) {
+                return 0;
             }
 
+            value = 1;
             break;
         }
     }

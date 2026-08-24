@@ -295,30 +295,28 @@ export const PassRouter = new Hono<Context>()
 const questTypes = Object.keys(QuestDefs);
 const defaultQuestType = questTypes[0] || "quest_kills";
 
+function getActiveMapIds() {
+    return server.modes
+        .filter((m) => m.enabled)
+        .map((m) => MapDefs[m.mapName].mapId);
+}
+
 function getRandomQuestType(excluded: Set<string>) {
-    let available = questTypes.filter((questType) => !excluded.has(questType));
+    const activeMapIds = getActiveMapIds();
 
-    // for top in solo / squad quests
-    // filter them based on running modes not being normal mode
-    // getting top in solos while a mode is running on squads is really frustrating :)
-    const nonNormalModes = server.modes.filter(m => {
-        if (!m.enabled) return false;
+    const available = questTypes.filter((questType) => {
+        if (excluded.has(questType)) return false;
 
-        const def = MapDefs[m.mapName];
-        return def.mapId !== MapId.Main;
+        const def = QuestDefs[questType];
+        if (!def) return false;
+
+        const modeMap = def.where?.map;
+        if (modeMap === undefined) return true;
+
+        return Array.isArray(modeMap)
+            ? modeMap.some((mode) => activeMapIds.includes(mode))
+            : activeMapIds.includes(modeMap);
     });
-    if (nonNormalModes.length) {
-        const teamModes = nonNormalModes.map(m => {
-            return m.teamMode;
-        });
-        available = available.filter(type => {
-            const def = QuestDefs[type];
-            if (def.event === "placement" && def.where?.mode) {
-                return teamModes.includes(def.where.mode);
-            }
-            return true;
-        });
-    }
 
     const source = available.length > 0 ? available : questTypes;
     return util.randomItem(source) ?? defaultQuestType;
